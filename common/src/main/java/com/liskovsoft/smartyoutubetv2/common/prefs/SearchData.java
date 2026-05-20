@@ -167,6 +167,10 @@ public class SearchData {
         mIsTypingCorrectionDisabled = Helpers.parseBoolean(split, 11, false);
     }
 
+    public void persistNow() {
+        persistData();
+    }
+
     private void persistData() {
         mAppPrefs.setData(SEARCH_DATA,
                 Helpers.mergeData(mIsInstantVoiceSearchEnabled, mSearchOptions, mIsFocusOnResultsEnabled,

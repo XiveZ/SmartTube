@@ -113,6 +113,10 @@ public class AccountsData implements AccountChangeListener {
         }
     }
 
+    public void persistNow() {
+        persistState();
+    }
+
     private void persistState() {
         mAppPrefs.setData(ACCOUNTS_DATA, Helpers.mergeData(
                 mIsSelectAccountOnBootEnabled, null, null, Helpers.mergeArray(mPasswords.values().toArray())

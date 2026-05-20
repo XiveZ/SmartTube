@@ -80,17 +80,22 @@ import com.liskovsoft.smartyoutubetv2.common.app.views.ViewManager;
 import com.liskovsoft.smartyoutubetv2.common.exoplayer.selector.FormatItem.VideoPreset;
 import com.liskovsoft.smartyoutubetv2.common.exoplayer.selector.TrackSelectorUtil;
 import com.liskovsoft.smartyoutubetv2.common.exoplayer.selector.track.MediaTrack;
+import com.liskovsoft.smartyoutubetv2.common.filter.KeywordFilterManager;
 import com.liskovsoft.smartyoutubetv2.common.misc.MotherActivity;
 import com.liskovsoft.smartyoutubetv2.common.misc.RemoteControlService;
 import com.liskovsoft.smartyoutubetv2.common.misc.RemoteControlWorker;
 import com.liskovsoft.smartyoutubetv2.common.misc.ScreensaverManager;
+import com.liskovsoft.smartyoutubetv2.common.prefs.AccountsData;
 import com.liskovsoft.smartyoutubetv2.common.prefs.BlockedChannelData;
+import com.liskovsoft.smartyoutubetv2.common.prefs.DeArrowData;
 import com.liskovsoft.smartyoutubetv2.common.prefs.GeneralData;
 import com.liskovsoft.smartyoutubetv2.common.prefs.HiddenPrefs;
 import com.liskovsoft.smartyoutubetv2.common.prefs.MainUIData;
 import com.liskovsoft.smartyoutubetv2.common.prefs.PlayerData;
 import com.liskovsoft.smartyoutubetv2.common.prefs.PlayerTweaksData;
 import com.liskovsoft.smartyoutubetv2.common.prefs.RemoteControlData;
+import com.liskovsoft.smartyoutubetv2.common.prefs.SearchData;
+import com.liskovsoft.smartyoutubetv2.common.prefs.SponsorBlockData;
 import com.liskovsoft.youtubeapi.service.internal.MediaServiceData;
 
 import java.io.UnsupportedEncodingException;
@@ -110,15 +115,21 @@ public class Utils {
             "app.smarttube.fdroid",
     };
     public static final String[] BACKUP_PATTERNS = {
-            "yt_service_prefs.xml",
-            "com.liskovsoft.appupdatechecker2.preferences.xml",
-            "com.liskovsoft.sharedutils.prefs.GlobalPreferences.xml",
-            "_preferences.xml" // before _ should be the app package name
+            ".xml" // catch all prefs (standard and custom)
     };
     public static final String[] BACKUP_DIR_PATTERNS = {
             "app_prefs",
             "yt_service_prefs",
-            "global_prefs"
+            "global_prefs",
+            "search_data",
+            "video_player_tweaks_data",
+            "content_block_data",
+            "blocked_channel_data",
+            "general_data",
+            "main_ui_data",
+            "player_data",
+            "accounts_data",
+            "state_updater_data"
     };
     private static final String SUPER_PASSWD = "smarttube";
     private static final int RANDOM_FAIL_REPEAT_TIMES = 10;
@@ -1294,14 +1305,19 @@ public class Utils {
         return AppInfoHelpers.getRealSdkVersion(context) > 29;
     }
 
-    private static void persistData(Context context) {
+    public static void persistData(Context context) {
         VideoStateService.instance(context).persistNow();
         PlayerData.instance(context).persistNow();
         PlayerTweaksData.instance(context).persistNow();
         MainUIData.instance(context).persistNow();
         GeneralData.instance(context).persistNow();
-        MediaServiceData mediaServiceData = MediaServiceData.instance();
-        mediaServiceData.persistNow();
+        MediaServiceData.instance().persistNow();
         BlockedChannelData.instance(context).persistNow();
+        KeywordFilterManager.instance(context).persistNow();
+        AccountsData.instance(context).persistNow();
+        SearchData.instance(context).persistNow();
+        SponsorBlockData.instance(context).persistNow();
+        RemoteControlData.instance(context).persistNow();
+        DeArrowData.instance(context).persistNow();
     }
 }

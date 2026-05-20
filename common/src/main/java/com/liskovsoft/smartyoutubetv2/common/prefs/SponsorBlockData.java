@@ -304,6 +304,10 @@ public class SponsorBlockData {
         }
     }
 
+    public void persistNow() {
+        persistState();
+    }
+
     private void persistState() {
         String colorCategories = Helpers.mergeArray(mColorCategories.toArray());
         String actions = Helpers.mergeArray(mActions.toArray());

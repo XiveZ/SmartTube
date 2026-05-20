@@ -142,6 +142,8 @@ public class BackupAndRestoreManager implements MotherActivity.OnPermissions {
     public void backupData() {
         Log.d(TAG, "App has been updated or installed. Doing data backup...");
 
+        Utils.persistData(mContext);
+
         File currentBackup = getBackup();
 
         if (currentBackup == null || !hasStoragePermissions(mContext)) {
